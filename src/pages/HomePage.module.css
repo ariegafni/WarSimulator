@@ -1,0 +1,89 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f6f9fc 0%, #e9ecef 100%);
+    padding: 2rem;
+  }
+  
+  .content {
+    text-align: center;
+    max-width: 600px;
+    padding: 3rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    color: #1a365d;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+  
+  .subtitle {
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .button {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+  }
+  
+  .userButton {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .userButton:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+  }
+  
+  .adminButton {
+    background-color: #1e293b;
+    color: white;
+  }
+  
+  .adminButton:hover {
+    background-color: #334155;
+    transform: translateY(-2px);
+  }
+  
+  .footer {
+    margin-top: 3rem;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+  
+  @media (max-width: 640px) {
+    .content {
+      padding: 2rem;
+    }
+  
+    .title {
+      font-size: 2rem;
+    }
+  
+    .button {
+      width: 100%;
+      text-align: center;
+    }
+  }
