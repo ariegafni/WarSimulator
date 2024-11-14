@@ -1,9 +1,9 @@
+import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch ,RootState} from '../redux/store';
 
-import { fetchMissiles, launchMissile, updateMissileStatus } from '../redux/attackSlice';
-import { io } from 'socket.io-client';
+import { decrementMissileAmount, fetchMissiles, launchMissile, updateMissileStatus } from '../redux/attackSlice';
 import styles from './AttackPage.module.css';
 
 const AREAS = ['North', 'South', 'Center', 'Judea and Samaria'];
@@ -12,23 +12,42 @@ const AttackPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user.user);
   const { missiles, launchedMissiles, isLoading } = useSelector((state: RootState) => state.attack);
+  const [currentTime, setCurrentTime] = useState(Date.now());
 
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedMissile, setSelectedMissile] = useState('');
 
   useEffect(() => {
+    
     if (!user?.organization) return;
     dispatch(fetchMissiles(user.organization));
-
-    const socket = io('http://localhost:3000');
-
+    
+    
+    const socket = io('http://localhost:5173');
     socket.on('missile-status-update', (data) => {
+      console.log('Received status update:', data);
       dispatch(updateMissileStatus(data));
     });
     return () => {
       socket.disconnect();
     };
   }, [dispatch, user?.organization]);
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(Date.now()), 1000);
+    return () => clearInterval(timer);
+  },[]);
+
+ 
+useEffect(() => {
+  launchedMissiles.forEach(missile => {
+    if (missile.status === 'launched' && missile.TimeToHit <= currentTime) {
+      dispatch(updateMissileStatus({
+        missileId: missile.id,
+        newStatus: 'hit'
+      }));
+    }
+  });
+}, [currentTime, launchedMissiles, dispatch]);
 
   const handleLaunch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,8 +57,11 @@ const AttackPage = () => {
       await dispatch(launchMissile({
         missileName: selectedMissile,
         targetArea: selectedArea,
-        sourceOrg: user.organization
+        sourceOrg: user.organization,
+        
       })).unwrap();
+
+      dispatch(decrementMissileAmount({ missileName: selectedMissile  }));
 
       setSelectedArea('');
       setSelectedMissile('');
@@ -49,8 +71,8 @@ const AttackPage = () => {
   };
 
   const calculateTimeRemaining = (missile : any) => {
-    const TimeLeft = missile.TimeToHit - Date.now();
-    return TimeLeft > 0 ? Math.ceil(TimeLeft / 1000) : null;
+    const TimeLeft = missile.TimeToHit - currentTime;
+    return TimeLeft > 0 ? Math.ceil(TimeLeft / 1000) : 0;
     
   }
   if (isLoading) return <p>Loading...</p>;

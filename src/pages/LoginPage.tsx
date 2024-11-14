@@ -37,12 +37,13 @@ const LoginPage = () => {
           console.error('Token not found');
           return;
         }
-     
-    if (user?.organization === 'Israel') {
+        
+    if (result.organization === 'IDF - Center'  || user?.organization === 'IDF - North' || user?.organization === 'IDF - South'  || user?.organization === 'IDF - West Bank') {
       navigate('/defense');  
     } else {
       navigate('/attack');  
     }
+
       }
     } catch (error: any) {
       console.error(error, 'Failed to log in');

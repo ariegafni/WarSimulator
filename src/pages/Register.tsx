@@ -1,3 +1,4 @@
+// Register.tsx
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../redux/registerSlice";
@@ -9,7 +10,6 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [organization, setOrganization] = useState('');
-  const [location, setLocation] = useState('');  
   const [area, setArea] = useState('');  
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,9 +20,10 @@ const Register = () => {
     const userData = {
       username,
       password,
-      organization,
-      area: organization === 'IDF' ? area : undefined,
-      location: organization === 'Israel' ? location : undefined, 
+     
+      organization: organization === 'IDF' ? `IDF - ${area}` : organization,
+      area: undefined, 
+      location: undefined
     };
 
     try {
@@ -64,41 +65,27 @@ const Register = () => {
           <label className={styles.label}>Organization:</label>
           <select 
             value={organization} 
-            onChange={(e) => setOrganization(e.target.value)} 
+            onChange={(e) => {
+              setOrganization(e.target.value);
+              if (e.target.value !== 'IDF') {
+                setArea('');  
+              }
+            }} 
             className={styles.input} 
             required
           >
             <option value="">Select organization</option>
-            <option value="Israel">Israel</option> 
+            <option value="IDF">IDF</option>
             <option value="Hamas">Hamas</option>
             <option value="Hezbollah">Hezbollah</option>
-            <option value="IDF">IDF</option>
             <option value="IRGC">IRGC</option>
             <option value="Houthis">Houthis</option>
           </select>
         </div>
 
-        {organization === 'Israel' && (
+        {organization === 'IDF' && (
           <div className={styles.formGroup}>
-            <label className={styles.label}>Location:</label>
-            <select 
-              value={location} 
-              onChange={(e) => setLocation(e.target.value)} 
-              className={styles.input} 
-              required
-            >
-              <option value="">Select location</option>
-              <option value="North">North</option>
-              <option value="South">South</option>
-              <option value="Center">Center</option>
-              <option value="Judea and Samaria">Judea and Samaria</option>
-            </select>
-          </div>
-        )}
-
-        {organization === 'IDF' && location === 'Israel' && (
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Area (if IDF and Israel):</label>
+            <label className={styles.label}>Area:</label>
             <select 
               value={area} 
               onChange={(e) => setArea(e.target.value)} 
@@ -109,7 +96,7 @@ const Register = () => {
               <option value="North">North</option>
               <option value="South">South</option>
               <option value="Center">Center</option>
-              <option value="Judea and Samaria">Judea and Samaria</option>
+              <option value="West Bank">West Bank</option>
             </select>
           </div>
         )}
