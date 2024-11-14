@@ -1,0 +1,80 @@
+/* src/pages/AttackPage.module.css */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #f5f5f5;
+  }
+  
+  .launchForm {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .launchForm select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+  }
+  
+  .launchForm button {
+    padding: 8px 20px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .launchForm button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* סטטוס טילים */
+  .launched {
+    color: #f39c12;
+  }
+  
+  .hit {
+    color: #27ae60;
+  }
+  
+  .intercepted {
+    color: #e74c3c;
+  }
+  
+  /* חלוקה לסקציות */
+  .section {
+    margin-bottom: 30px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+  }

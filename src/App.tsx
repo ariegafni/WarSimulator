@@ -16,8 +16,11 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/defense" element={<DefensePage />} />
-        <Route path="/attack" element={<AttackPage />} />
+        {/* <Route path="/defense" element={<DefensePage />} />
+        <Route path="/attack" element={<AttackPage />} /> */}
+
+        <Route path="/attack" element={<DefensePage />} />
+        <Route path="/defense" element={<AttackPage />} />
         
         
       </Routes>

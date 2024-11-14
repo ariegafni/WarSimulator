@@ -8,7 +8,7 @@ const initialState  : AttackState= {
     isLoading: false,
     error: null
 };
-// לקלב מלאי טילים
+// לקלב מלאי טילים לפי אירגון
 export const fetchMissiles = createAsyncThunk(
     'attack/fetchMissiles',
     async (organizationName : string) => {
@@ -29,7 +29,12 @@ export const launchMissile = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(launchData),
+        body: JSON.stringify({
+          missileType: launchData.missileName,
+          sourceOrg: launchData.sourceOrg,
+          targetArea: launchData.targetArea,
+          launchTime: Date.now()
+        }),
       });
       
       if (!response.ok) {
@@ -37,7 +42,17 @@ export const launchMissile = createAsyncThunk(
       }
       
       const data = await response.json();
-      return data as LaunchedMissile;
+      
+      return {
+        id: data.missileDetails._id,              
+        name: data.missileDetails.name,           
+        targetArea: launchData.targetArea,       
+        launchTime: Date.now(),                  
+        TimeToHit: data.estimatedImpactTime,      
+        status: 'launched',
+        sourceOrg: launchData.sourceOrg,
+        missileSpeed: data.missileDetails.speed,                       
+      } as LaunchedMissile;
     }
   );
 
